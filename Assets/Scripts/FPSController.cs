@@ -18,20 +18,23 @@ public class FPSController : MonoBehaviour
 
     float _joystickDeadZone = 0.05f;
 
-    Vector3 _velocity;
-
     private float _screenHalf = Screen.width / 2.0f;
 
     private GameObject _camera;
     private float _xAngle;
     private float _yAngle;
     private Quaternion _startRotation;
+
+    [SerializeField]
+    private float _mobileRotationModifier = 0.5f;
+    private Rigidbody _rigidbody;
         
     // Use this for initialization
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         _camera = GetComponentInChildren<Camera>().gameObject;
+        _rigidbody = GetComponent<Rigidbody>();
         _startRotation = _camera.transform.rotation;
     }
 
@@ -44,7 +47,6 @@ public class FPSController : MonoBehaviour
     
     void ProcessMovement()
     {
-        _velocity = Vector3.zero;
         Vector2 movement = Vector2.zero;
         Vector2 forward = new Vector2(_camera.transform.forward.x, _camera.transform.forward.z);
         forward = forward.normalized;
@@ -76,7 +78,7 @@ public class FPSController : MonoBehaviour
                             Logger.Log("Movement update " + movement);
                             movement *= MovementSpeed * Time.deltaTime;
                             Vector3 movementInput = new Vector3(movement.x, 0, movement.y);
-                            transform.position += movementInput;
+                            _rigidbody.MovePosition(transform.position + movementInput);
                         }
                         return;
                     }
@@ -104,8 +106,7 @@ public class FPSController : MonoBehaviour
                 movement += right * MovementSpeed * Time.deltaTime;
             }
             Vector3 movementInput = new Vector3(movement.x, 0, movement.y);
-            transform.position += movementInput;
-            _velocity = movementInput;
+            _rigidbody.MovePosition(transform.position + movementInput);
         }
     }
 
@@ -129,14 +130,17 @@ public class FPSController : MonoBehaviour
                 }
                 if (touch.fingerId == _rotationFingerId)
                 {
+                    
                     Vector2 rotationDirection = (touch.position - _rotationStartPoint);
-                    rotationDirection = rotationDirection.normalized;
+                    //rotationDirection = rotationDirection.normalized;
                     _rotationStartPoint = touch.position;
-                    _xAngle += -rotationDirection.y * RotationSpeed * Time.deltaTime;
-                    _yAngle += rotationDirection.x * RotationSpeed * Time.deltaTime;
+                    _xAngle += -rotationDirection.y * RotationSpeed * _mobileRotationModifier * Time.deltaTime;
+                    _yAngle += rotationDirection.x * RotationSpeed * _mobileRotationModifier * Time.deltaTime;
                     _xAngle = Mathf.Clamp(_xAngle, MinPitch, MaxPitch);
-                    _camera.transform.rotation = Quaternion.Euler(_startRotation.eulerAngles.x + _xAngle, _startRotation.eulerAngles.y + _yAngle, 0f);
-                    return;
+                    Quaternion yQuaternion = Quaternion.AngleAxis(_yAngle, Vector3.up);
+                    Quaternion xQuaternion = Quaternion.AngleAxis(_xAngle, _camera.transform.right);
+                    Quaternion nextRotation = _startRotation * xQuaternion * yQuaternion;
+                    _camera.transform.rotation = Quaternion.Euler(nextRotation.eulerAngles.x, nextRotation.eulerAngles.y, 0f); return;
                 }
             }
             _isRotationDown = false;
@@ -147,8 +151,10 @@ public class FPSController : MonoBehaviour
             _xAngle += -Input.GetAxis("Mouse Y") * RotationSpeed * Time.deltaTime;
             _yAngle += Input.GetAxis("Mouse X") * RotationSpeed * Time.deltaTime;
             _xAngle = Mathf.Clamp(_xAngle, MinPitch, MaxPitch);
-            Debug.Log(_xAngle);
-            _camera.transform.rotation = Quaternion.Euler(_startRotation.eulerAngles.x + _xAngle, _startRotation.eulerAngles.y + _yAngle, 0f);
+            Quaternion yQuaternion = Quaternion.AngleAxis(_yAngle, Vector3.up);
+            Quaternion xQuaternion = Quaternion.AngleAxis(_xAngle, _camera.transform.right);
+            Quaternion nextRotation = _startRotation * xQuaternion * yQuaternion;
+            _camera.transform.rotation = Quaternion.Euler(nextRotation.eulerAngles.x, nextRotation.eulerAngles.y , 0f);
 
         }
 
