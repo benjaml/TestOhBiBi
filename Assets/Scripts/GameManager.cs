@@ -46,20 +46,35 @@ public class GameManager : MonoBehaviour
     private GameObject _continueScreen;
     [SerializeField]
     private int _continueCost;
+
+    [SerializeField]
+    private GameObject[] _pickups;
+
     private bool _canWatchAdd = true;
 
     private bool _waitingForNextWave = false;
 
     private List<GameObject> _currentWave = new List<GameObject>(MAX_SPAWN_NUMBER);
     private GameObject _player;
-    private int _playerCurrentCurrency;
-    public int PlayerCurrentCurrency
+
+    private int _playerCurrentHardCurrency;
+    public int PlayerCurrentHardCurrency
     {
-        get { return _playerCurrentCurrency; }
+        get { return _playerCurrentHardCurrency; }
         set
         {
-            _playerCurrentCurrency = value;
-            PlayerUI.Instance.NotifyCurrency(_playerCurrentCurrency);
+            _playerCurrentHardCurrency = value;
+            PlayerUI.Instance.NotifyHardCurrency(_playerCurrentHardCurrency);
+        }
+    }
+    private int _playerCurrentSoftCurrency;
+    public int PlayerCurrentSoftCurrency
+    {
+        get { return _playerCurrentSoftCurrency; }
+        set
+        {
+            _playerCurrentSoftCurrency = value;
+            PlayerUI.Instance.NotifySoftCurrency(_playerCurrentSoftCurrency);
         }
     }
 
@@ -97,7 +112,7 @@ public class GameManager : MonoBehaviour
             {
                 _currentWave.Remove(enemy);
                 Destroy(enemy);
-                PlayerCurrentCurrency += bestChoice.Reward * level;
+                PlayerCurrentSoftCurrency += bestChoice.Reward * level;
             });
             _currentWave.Add(enemy);
             currentSpawnCount++;
@@ -122,11 +137,14 @@ public class GameManager : MonoBehaviour
     {
         _player = GameObject.FindGameObjectWithTag("Player");
         StartCoroutine("NewWaveCoroutine");
-        PlayerCurrentCurrency = 0;
+        PlayerCurrentSoftCurrency = 0;
+        PlayerCurrentHardCurrency = 0;
         _player.GetComponent<EntityHealth>().SetDeathCallback(() =>
         {
             ShowContinueScreen();
         });
+        _pickups = Resources.LoadAll<GameObject>("Prefabs/Pickups");
+
     }
 
     private void ShowContinueScreen()
@@ -134,9 +152,20 @@ public class GameManager : MonoBehaviour
         _continueScreen.GetComponent<ContinueScreen>().Display(_continueCost, _canWatchAdd);
     }
 
+    public void CollectSoftCurrency(int coinPerWave)
+    {
+        PlayerCurrentSoftCurrency += coinPerWave*_waveCount;
+    }
+
+    public void CollectHardCurrency(float starPerWave)
+    {
+        PlayerCurrentHardCurrency += Mathf.Max(1, (int)(starPerWave*_waveCount));
+    }
+
     public void EndGame()
     {
-        PlayerWallet.Instance.AddSoftCurrency(_playerCurrentCurrency);
+        PlayerWallet.Instance.AddSoftCurrency(_playerCurrentSoftCurrency);
+        PlayerWallet.Instance.AddHardCurrency(_playerCurrentHardCurrency);
         _canWatchAdd = true;
         SceneManager.LoadScene(0);
     }

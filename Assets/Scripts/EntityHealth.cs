@@ -14,7 +14,7 @@ public class EntityHealth : MonoBehaviour
     {
         if(transform.tag == "Player")
         {
-            PlayerUI.Instance.NotifyHealth(_maxHealth);
+            PlayerUI.Instance.NotifyHealth(1f);
         }
         else
         {
@@ -38,16 +38,16 @@ public class EntityHealth : MonoBehaviour
         }
         if (transform.tag == "Player")
         {
-            PlayerUI.Instance.NotifyHealth(_currentHealth);
+            PlayerUI.Instance.NotifyHealth(_currentHealth/_maxHealth);
         }
     }
 
-    public void Heal(int amount)
+    public void Heal(float percentage)
     {
-        _currentHealth = Mathf.Min(_maxHealth, _currentHealth + amount);
+        _currentHealth = Mathf.Min(_maxHealth, _currentHealth + (int)(percentage * _maxHealth));
         if (transform.tag == "Player")
         {
-            PlayerUI.Instance.NotifyHealth(_currentHealth);
+            PlayerUI.Instance.NotifyHealth(_currentHealth / _maxHealth);
         }
     }
 

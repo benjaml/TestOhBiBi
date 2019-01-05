@@ -20,15 +20,22 @@ public class PlayerUI : MonoBehaviour
     [SerializeField]
     private Text _waveInfoText;
     [SerializeField]
-    private Text _currencyInfoText;
+    private Text _softCurrencyInfoText;
     [SerializeField]
-    private Text _healthInfoText;
+    private Text _hardCurrencyInfoText;
+    [SerializeField]
+    private Image _healthImage;
     [SerializeField]
     private Text _ammoInfoText;
 
-    public void NotifyCurrency(int currentCurrency)
+    public void NotifySoftCurrency(int currentCurrency)
     {
-        _currencyInfoText.text = currentCurrency.ToString();
+        _softCurrencyInfoText.text = currentCurrency.ToString();
+    }
+
+    public void NotifyHardCurrency(int currentCurrency)
+    {
+        _hardCurrencyInfoText.text = currentCurrency.ToString();
     }
 
     public void NotifyAmmoCount(int currentCount, int max)
@@ -36,9 +43,9 @@ public class PlayerUI : MonoBehaviour
         _ammoInfoText.text = $"{currentCount.ToString()} / {max.ToString()}";
     }
 
-    public void NotifyHealth(int health)
+    public void NotifyHealth(float ratio)
     {
-        _healthInfoText.text = health.ToString();
+        _healthImage.fillAmount = ratio;
     }
 
     public void ChangeWaveInfoMessage(string message)
