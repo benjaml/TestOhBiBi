@@ -47,8 +47,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private int _continueCost;
 
-    [SerializeField]
     private GameObject[] _pickups;
+    private List<GameObject> _pickupsAvailableSlots;
 
     private bool _canWatchAdd = true;
 
@@ -118,6 +118,16 @@ public class GameManager : MonoBehaviour
             currentSpawnCount++;
             credits -= creditsCost;
         }
+        // Spawn a pickup
+        if(_pickupsAvailableSlots.Count > 0)
+        {
+            GameObject spawner = _pickupsAvailableSlots[UnityEngine.Random.Range(0, _pickupsAvailableSlots.Count)];
+            _pickupsAvailableSlots.Remove(spawner);
+            GameObject pickup = Instantiate(_pickups[UnityEngine.Random.Range(0, _pickups.Length)], spawner.transform);
+            pickup.GetComponent<Pickup>().SetPickupCallback(
+                () => 
+            _pickupsAvailableSlots.Add(spawner));
+        }
     }
 
     public void ResetGame()
@@ -144,7 +154,7 @@ public class GameManager : MonoBehaviour
             ShowContinueScreen();
         });
         _pickups = Resources.LoadAll<GameObject>("Prefabs/Pickups");
-
+        _pickupsAvailableSlots = new List<GameObject>(_spawners);
     }
 
     private void ShowContinueScreen()

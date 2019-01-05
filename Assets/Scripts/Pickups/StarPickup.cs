@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class StarPickup : MonoBehaviour
+public class StarPickup : Pickup
 {
     [SerializeField]
     private float _starPerWave;
@@ -10,6 +10,7 @@ public class StarPickup : MonoBehaviour
         if (other.tag == "Player")
         {
             GameManager.Instance.CollectHardCurrency(_starPerWave);
+            _freeSpawnCallback();
             Destroy(gameObject);
         }
     }

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class HealPickup : MonoBehaviour
+public class HealPickup : Pickup
 {
     [SerializeField]
     private float _percentage;
@@ -10,6 +10,7 @@ public class HealPickup : MonoBehaviour
         if(other.tag == "Player")
         {
             other.GetComponent<EntityHealth>().Heal(_percentage);
+            _freeSpawnCallback();
             Destroy(gameObject);
         }
     }

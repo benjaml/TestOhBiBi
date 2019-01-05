@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class CoinPickup : MonoBehaviour
+public class CoinPickup : Pickup
 {
     [SerializeField]
     private int _coinPerWave;
@@ -10,6 +10,7 @@ public class CoinPickup : MonoBehaviour
         if (other.tag == "Player")
         {
             GameManager.Instance.CollectSoftCurrency(_coinPerWave);
+            _freeSpawnCallback();
             Destroy(gameObject);
         }
     }
