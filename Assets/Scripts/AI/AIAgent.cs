@@ -32,4 +32,9 @@ public class AIAgent : MonoBehaviour
         _currentState = component as AIState;
         _currentState.StateInit();
     }
+
+    public void LevelUp(int level, float levelUpMultiplier)
+    {
+        //GetComponent<EntityInfos>()
+    }
 }

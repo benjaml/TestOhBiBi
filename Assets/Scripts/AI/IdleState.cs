@@ -13,9 +13,6 @@ public class IdleState : AIState
     // Update is called once per frame
     public override void StateUpdate()
     {
-        if(Vector3.Distance(transform.position, _target.transform.position) <  _AIAgent.Infos.DetectionRange)
-        {
-            _AIAgent.SetState(typeof(MoveToTargetState));
-        }
+        _AIAgent.SetState(typeof(MoveToTargetState));
     }
 }

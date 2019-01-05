@@ -4,9 +4,6 @@ using UnityEngine.UI;
 
 public class UpgradeElement : MonoBehaviour
 {
-
-
-
     [Serializable]
     public struct UpgradeStep
     {
@@ -41,7 +38,7 @@ public class UpgradeElement : MonoBehaviour
 
     public void Upgrade()
     {
-        PlayerPrefs.SetInt("Currency", PlayerPrefs.GetInt("Currency") - _steps[_currentStep].Cost);
+        PlayerWallet.Instance.AddSoftCurrency(-_steps[_currentStep].Cost);
         _currentStep++;
         PlayerPrefs.SetInt(_valueName + "Step", _currentStep);
         UpdateTexts();
@@ -51,7 +48,7 @@ public class UpgradeElement : MonoBehaviour
     private void CheckCurrency()
     {
         Button button = GetComponentInChildren<Button>();
-        if(_currentStep == _steps.Length || PlayerPrefs.GetInt("Currency") < _steps[_currentStep].Cost)
+        if(_currentStep == _steps.Length || PlayerWallet.Instance.GetSoftCurrency() < _steps[_currentStep].Cost)
         {
             button.interactable = false;
         }

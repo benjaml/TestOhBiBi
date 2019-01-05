@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2048276419730136701}
   - component: {fileID: 768953140}
   - component: {fileID: 768953139}
+  - component: {fileID: 61880164}
   m_Layer: 0
   m_Name: Chomper
   m_TagString: Damageable
@@ -46,10 +47,10 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 0
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 360
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -72,8 +73,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _attackRange: 3
   _attackSpeed: 5
-  _detectionRange: 50
-  _maxSpeed: 20
+  _damage: 100
+  _health: 10
+  _maxSpeed: 10
   _acceleration: 5
   _lastAttackTime: 0
 --- !u!114 &2048276419730136701
@@ -113,7 +115,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9d5dfc3f4b31b34fa1989cd46f593e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 100
+  _maxHealth: 0
+--- !u!114 &61880164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2048276419730136703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b7fdcc40428a2449a17c6c5070bf309, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _attackLength: 1.5
+  _attackTiming: 0.5
+  _attackTrigger: {fileID: 0}
 --- !u!1001 &2048276420603291764
 PrefabInstance:
   m_ObjectHideFlags: 0

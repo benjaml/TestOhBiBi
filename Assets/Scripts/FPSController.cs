@@ -63,7 +63,6 @@ public class FPSController : MonoBehaviour
                         _isMovementDown = true;
                         _movementStartPoint = touch.position;
                         _movementFingerId = touch.fingerId;
-                        Logger.Log("Movement start");
                         return;
                     }
                     if (touch.fingerId == _movementFingerId)
@@ -75,7 +74,6 @@ public class FPSController : MonoBehaviour
                             movement = movement.normalized;
                             movement = movement.x * right + movement.y * forward;
                             movement = movement.normalized;
-                            Logger.Log("Movement update " + movement);
                             movement *= MovementSpeed * Time.deltaTime;
                             Vector3 movementInput = new Vector3(movement.x, 0, movement.y);
                             _rigidbody.MovePosition(transform.position + movementInput);
@@ -91,21 +89,22 @@ public class FPSController : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.Z) || Input.GetKey(KeyCode.W))
             {
-                movement += forward * MovementSpeed * Time.deltaTime;
+                movement += forward;
             }
             if (Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.A))
             {
-                movement -= right * MovementSpeed * Time.deltaTime;
+                movement -= right;
             }
             if (Input.GetKey(KeyCode.S))
             {
-                movement -= forward * MovementSpeed * Time.deltaTime;
+                movement -= forward;
             }
             if (Input.GetKey(KeyCode.D))
             {
-                movement += right * MovementSpeed * Time.deltaTime;
+                movement += right;
             }
             Vector3 movementInput = new Vector3(movement.x, 0, movement.y);
+            movementInput = movementInput.normalized * Time.deltaTime * MovementSpeed;
             _rigidbody.MovePosition(transform.position + movementInput);
         }
     }
@@ -124,7 +123,6 @@ public class FPSController : MonoBehaviour
                         _isRotationDown = true;
                         _rotationStartPoint = touch.position;
                         _rotationFingerId = touch.fingerId;
-                        Logger.Log("Rotation start");
                         return;
                     }
                 }

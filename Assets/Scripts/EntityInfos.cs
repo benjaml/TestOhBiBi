@@ -11,8 +11,12 @@ public class EntityInfos : MonoBehaviour
     public float AttackSpeed { get { return _attackSpeed; } set { _attackSpeed = value; } }
 
     [SerializeField]
-    private float _detectionRange;
-    public float DetectionRange { get { return _detectionRange; } private set { _detectionRange = value; } }
+    private int _damage;
+    public int Damage { get { return _damage; } set { _damage = value; } }
+
+    [SerializeField]
+    private int _health;
+    public int Health { get { return _health; } set { _damage = _health; } }
 
     [SerializeField]
     private float _maxSpeed;

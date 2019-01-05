@@ -25,20 +25,16 @@ public class MoveToTargetState : AIState
     public override void StateUpdate()
     {
         Vector3 newPosition = _target.transform.position + (transform.position - _target.transform.position).normalized * _AIAgent.Infos.AttackRange*0.9f;
-        if (Vector3.Distance(transform.position, newPosition) < _AIAgent.Infos.DetectionRange)
-        { 
-            _navMeshAgent.speed += _AIAgent.Infos.Acceleration * Time.deltaTime;
-            _navMeshAgent.speed = Mathf.Min(_navMeshAgent.speed, _AIAgent.Infos.MaxSpeed);
-            _animator.SetFloat("Speed", _navMeshAgent.velocity.magnitude / _AIAgent.Infos.MaxSpeed);
-            _navMeshAgent.SetDestination(newPosition);
-            if (Vector3.Distance(transform.position, _target.transform.position) < _AIAgent.Infos.AttackRange)
+        _navMeshAgent.speed += _AIAgent.Infos.Acceleration * Time.deltaTime;
+        _navMeshAgent.speed = Mathf.Min(_navMeshAgent.speed, _AIAgent.Infos.MaxSpeed);
+        _animator.SetFloat("Speed", _navMeshAgent.velocity.magnitude / _AIAgent.Infos.MaxSpeed);
+        _navMeshAgent.SetDestination(newPosition);
+        if (Vector3.Distance(transform.position, _target.transform.position) < _AIAgent.Infos.AttackRange)
+        {
+            if (_AIAgent.Infos.LastAttackTime == 0 || Time.time - _AIAgent.Infos.LastAttackTime > _AIAgent.Infos.AttackSpeed)
             {
-                if(_AIAgent.Infos.LastAttackTime == 0 || Time.time - _AIAgent.Infos.LastAttackTime > _AIAgent.Infos.AttackSpeed)
-                {
-                    _AIAgent.SetState(typeof(AttackState));
-                }
+                _AIAgent.SetState(typeof(AttackState));
             }
-
         }
     }
 }
