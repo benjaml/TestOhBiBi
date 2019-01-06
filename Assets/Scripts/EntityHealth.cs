@@ -15,6 +15,7 @@ public class EntityHealth : MonoBehaviour
         if(transform.tag == "Player")
         {
             PlayerUI.Instance.NotifyHealth(1f);
+            _maxHealth += PlayerPrefs.GetInt("Health");
         }
         else
         {

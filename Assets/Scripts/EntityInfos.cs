@@ -16,7 +16,7 @@ public class EntityInfos : MonoBehaviour
 
     [SerializeField]
     private int _health;
-    public int Health { get { return _health; } set { _damage = _health; } }
+    public int Health { get { return _health; } set { _health = value; } }
 
     [SerializeField]
     private float _maxSpeed;

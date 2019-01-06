@@ -11,8 +11,6 @@ public class AttackState : AIState
     [SerializeField]
     // timing of the attack 0 is start and 1 is end
     private float _attackTiming;
-    [SerializeField]
-    private Collider _attackTrigger;
 
     private GameObject _player;
 

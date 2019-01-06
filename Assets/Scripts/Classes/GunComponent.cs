@@ -26,6 +26,7 @@ public class GunComponent : MonoBehaviour
 
     void Start()
     {
+        _damage += PlayerPrefs.GetInt("Damage");
         CurrentAmmoCount = _MaxAmmo;
     }
     

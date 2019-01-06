@@ -5,7 +5,6 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class MoveToTargetState : AIState
 {
-    const float StylichVelocityDeseleration = 0.9f;
 
     GameObject _target;
     NavMeshAgent _navMeshAgent;

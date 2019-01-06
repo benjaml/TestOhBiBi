@@ -35,6 +35,11 @@ public class AIAgent : MonoBehaviour
 
     public void LevelUp(int level, float levelUpMultiplier)
     {
-        //GetComponent<EntityInfos>()
+        if(level > 1)
+        {
+            EntityInfos infos = GetComponent<EntityInfos>();
+            infos.Damage *= level;
+            infos.Health *= level;
+        }
     }
 }

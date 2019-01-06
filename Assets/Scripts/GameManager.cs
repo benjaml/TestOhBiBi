@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour
     private bool _waitingForNextWave = false;
 
     private List<GameObject> _currentWave = new List<GameObject>(MAX_SPAWN_NUMBER);
+    private const float SCALE_FACTOR_PER_LEVEL = 1.1f;
     private GameObject _player;
 
     private int _playerCurrentHardCurrency;
@@ -106,7 +107,10 @@ public class GameManager : MonoBehaviour
             // Safe cast as creditsCost%info.Cost == 0
             int level = (int)(creditsCost / bestChoice.Cost);
             GameObject enemy = Instantiate(bestChoice.Prefab, spawner.transform.position, Quaternion.identity);
-            enemy.transform.localScale = enemy.transform.localScale * UnityEngine.Random.Range(bestChoice.MinSize, bestChoice.MaxSize);
+            // I did think of two way to scale enemies (Mathf.Pow(SCALE_FACTOR_PER_LEVEL, level) would scale them less which could
+            // allow to hit much higher levels), as it is for a test and it will not be played long term, I choose to scale them
+            // with SCALE_FACTOR_PER_LEVEL* level to see the levelup more clearly and speed up the experience.
+            enemy.transform.localScale = enemy.transform.localScale * UnityEngine.Random.Range(bestChoice.MinSize, bestChoice.MaxSize)* SCALE_FACTOR_PER_LEVEL* level;
             enemy.GetComponent<AIAgent>().LevelUp(level, bestChoice.LevelUpStatMultiplier);
             enemy.GetComponent<EntityHealth>().SetDeathCallback(() => 
             {
@@ -155,6 +159,7 @@ public class GameManager : MonoBehaviour
         });
         _pickups = Resources.LoadAll<GameObject>("Prefabs/Pickups");
         _pickupsAvailableSlots = new List<GameObject>(_spawners);
+        _waveCount = PlayerPrefs.GetInt("StartWave");
     }
 
     private void ShowContinueScreen()

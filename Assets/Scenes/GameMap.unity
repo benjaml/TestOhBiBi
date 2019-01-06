@@ -2906,6 +2906,35 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1827977377}
+    - target: {fileID: 5134514831465650259, guid: 77b513a5f7e67814d9336c243be75c5c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 725196207, guid: 77b513a5f7e67814d9336c243be75c5c, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 4.460022
+      objectReference: {fileID: 0}
+    - target: {fileID: 725196207, guid: 77b513a5f7e67814d9336c243be75c5c, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 14.559999
+      objectReference: {fileID: 0}
+    - target: {fileID: 725196207, guid: 77b513a5f7e67814d9336c243be75c5c, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 4.9400024
+      objectReference: {fileID: 0}
+    - target: {fileID: 725196207, guid: 77b513a5f7e67814d9336c243be75c5c, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 34.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 725196208, guid: 77b513a5f7e67814d9336c243be75c5c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 725196208, guid: 77b513a5f7e67814d9336c243be75c5c, type: 3}
+      propertyPath: m_Type
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77b513a5f7e67814d9336c243be75c5c, type: 3}
 --- !u!1 &928864249 stripped
@@ -5761,7 +5790,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _timeBetweenWave: 3
-  _creditPerWave: 2
+  _creditPerWave: 50
   _spawners:
   - {fileID: 11163143}
   - {fileID: 905013935}
@@ -5800,7 +5829,6 @@ MonoBehaviour:
     MaxSize: 1.2
   _continueScreen: {fileID: 928864249}
   _continueCost: 20
-  _pickups: []
 --- !u!1 &1840006765
 GameObject:
   m_ObjectHideFlags: 0

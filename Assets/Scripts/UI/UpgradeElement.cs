@@ -4,23 +4,27 @@ using UnityEngine.UI;
 
 public class UpgradeElement : MonoBehaviour
 {
-    [Serializable]
-    public struct UpgradeStep
-    {
-        public int Cost;
-        public int Value;
-    }
-    [SerializeField]
+   [SerializeField]
     private string _valueName;
 
+    public enum AugmentationMethod
+    {
+        Add,
+        Multiply
+    }
     [SerializeField]
-    private UpgradeStep[] _steps;
+    private AugmentationMethod _augmentationMethod;
+    [SerializeField]
+    private int _startCost;
+    [SerializeField]
+    private int _augmentationAmount;
 
     [SerializeField]
     private Text _costText;
     [SerializeField]
     private Text _valueText;
 
+    private int _currentCost;
     private int _currentStep;
 
 
@@ -31,16 +35,30 @@ public class UpgradeElement : MonoBehaviour
 
     private void OnEnable()
     {
-        _currentStep = PlayerPrefs.GetInt(_valueName + "Step");
+        _currentStep = PlayerPrefs.GetInt(_valueName);
+        _currentCost = CalculateCost();
         CheckCurrency();
         UpdateTexts();
     }
 
+    private int CalculateCost()
+    {
+        switch (_augmentationMethod)
+        {
+            case AugmentationMethod.Add:
+                return _startCost + _currentStep * _augmentationAmount;
+            case AugmentationMethod.Multiply:
+                return (int)(_startCost * Mathf.Pow(_augmentationAmount, _currentStep));
+        }
+        return 0;
+    }
+
     public void Upgrade()
     {
-        PlayerWallet.Instance.AddSoftCurrency(-_steps[_currentStep].Cost);
+        PlayerWallet.Instance.AddSoftCurrency(-_currentCost);
         _currentStep++;
-        PlayerPrefs.SetInt(_valueName + "Step", _currentStep);
+        _currentCost = CalculateCost();
+        PlayerPrefs.SetInt(_valueName, _currentStep);
         UpdateTexts();
         CheckCurrency();
     }
@@ -48,7 +66,7 @@ public class UpgradeElement : MonoBehaviour
     private void CheckCurrency()
     {
         Button button = GetComponentInChildren<Button>();
-        if(_currentStep == _steps.Length || PlayerWallet.Instance.GetSoftCurrency() < _steps[_currentStep].Cost)
+        if( PlayerWallet.Instance.GetSoftCurrency() < _currentCost)
         {
             button.interactable = false;
         }
@@ -60,15 +78,7 @@ public class UpgradeElement : MonoBehaviour
 
     private void UpdateTexts()
     {
-        if (_currentStep < _steps.Length)
-        {
-            _valueText.text = _steps[_currentStep].Value.ToString();
-            _costText.text = _steps[_currentStep].Cost.ToString();
-        }
-        else
-        {
-            _valueText.text = "";
-            _costText.text = "";
-        }
+        _valueText.text = PlayerPrefs.GetInt(_valueName).ToString();
+        _costText.text = _currentCost.ToString();
     }
 }
