@@ -55,7 +55,7 @@ public class UpgradeElement : MonoBehaviour
 
     public void Upgrade()
     {
-        PlayerWallet.Instance.AddSoftCurrency(-_currentCost);
+        PlayerWallet.Instance.AddCurrency(PlayerWallet.CurrencyType.Soft, -_currentCost);
         _currentStep++;
         _currentCost = CalculateCost();
         PlayerPrefs.SetInt(_valueName, _currentStep);
@@ -66,7 +66,7 @@ public class UpgradeElement : MonoBehaviour
     private void CheckCurrency()
     {
         Button button = GetComponentInChildren<Button>();
-        if( PlayerWallet.Instance.GetSoftCurrency() < _currentCost)
+        if( PlayerWallet.Instance.GetCurrency(PlayerWallet.CurrencyType.Soft) < _currentCost)
         {
             button.interactable = false;
         }

@@ -2,6 +2,13 @@
 
 public class PlayerWallet
 {
+    public enum CurrencyType
+    {
+        Soft,
+        Hard,
+        Real
+    }
+
     private static PlayerWallet _instance = null;
     public static PlayerWallet Instance
     {
@@ -15,24 +22,32 @@ public class PlayerWallet
         }
     }
 
-    public void AddHardCurrency(int amount)
+    public void AddCurrency(CurrencyType type, int amount)
     {
-        PlayerPrefs.SetInt("HardCurrency", GetHardCurrency() + amount);
+        int newAmount = GetCurrency(type) + amount;
+        if (type == CurrencyType.Hard)
+        {
+            PlayerPrefs.SetInt("HardCurrency", newAmount);
+        }
+        else if(type == CurrencyType.Soft)
+        {
+            PlayerPrefs.SetInt("SoftCurrency", newAmount);
+        }
     }
 
-    public void AddSoftCurrency(int amount)
+    public int GetCurrency(CurrencyType type)
     {
-        PlayerPrefs.SetInt("SoftCurrency", GetSoftCurrency() + amount);
-    }
-
-    public int GetHardCurrency()
-    {
-        return PlayerPrefs.GetInt("HardCurrency");
-    }
-
-    public int GetSoftCurrency()
-    {
-        return PlayerPrefs.GetInt("SoftCurrency");
+        switch (type)
+        {
+            case CurrencyType.Soft:
+                return PlayerPrefs.GetInt("SoftCurrency");
+            case CurrencyType.Hard:
+                return PlayerPrefs.GetInt("HardCurrency");
+            case CurrencyType.Real:
+                return int.MaxValue; // If only life was this easy
+            default:
+                return 0;
+        }
     }
 
 }

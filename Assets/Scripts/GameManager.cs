@@ -139,7 +139,7 @@ public class GameManager : MonoBehaviour
         // only let the player watch an add the first continue
         _canWatchAdd = false;
         _continueCost *= 2;
-        _player.GetComponent<EntityHealth>().Heal(int.MaxValue);
+        _player.GetComponent<EntityHealth>().Heal(1.0f);
         while(_currentWave.Count > 0)
         {
             _currentWave[0].GetComponent<EntityHealth>().TakeDamage(int.MaxValue);
@@ -150,6 +150,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         _player = GameObject.FindGameObjectWithTag("Player");
+        _waveCount = PlayerPrefs.GetInt("StartWave");
         StartCoroutine("NewWaveCoroutine");
         PlayerCurrentSoftCurrency = 0;
         PlayerCurrentHardCurrency = 0;
@@ -159,7 +160,6 @@ public class GameManager : MonoBehaviour
         });
         _pickups = Resources.LoadAll<GameObject>("Prefabs/Pickups");
         _pickupsAvailableSlots = new List<GameObject>(_spawners);
-        _waveCount = PlayerPrefs.GetInt("StartWave");
     }
 
     private void ShowContinueScreen()
@@ -179,8 +179,8 @@ public class GameManager : MonoBehaviour
 
     public void EndGame()
     {
-        PlayerWallet.Instance.AddSoftCurrency(_playerCurrentSoftCurrency);
-        PlayerWallet.Instance.AddHardCurrency(_playerCurrentHardCurrency);
+        PlayerWallet.Instance.AddCurrency(PlayerWallet.CurrencyType.Soft, _playerCurrentSoftCurrency);
+        PlayerWallet.Instance.AddCurrency(PlayerWallet.CurrencyType.Hard, _playerCurrentHardCurrency);
         _canWatchAdd = true;
         SceneManager.LoadScene(0);
     }
@@ -203,12 +203,12 @@ public class GameManager : MonoBehaviour
     IEnumerator NewWaveCoroutine()
     {
         _waitingForNextWave = true;
-        _waveCount++;
         for(int i = _timeBetweenWave; i!=0;i--)
         {
             PlayerUI.Instance.ChangeWaveInfoMessage($"Next wave in {i}");
             yield return new WaitForSecondsRealtime(1);
         }
+        _waveCount++;
         SpawnWave();
         _waitingForNextWave = false;
     }

@@ -1670,6 +1670,25 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 497587335}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &523544600 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8270780885746875575, guid: 77b513a5f7e67814d9336c243be75c5c,
+    type: 3}
+  m_PrefabInstance: {fileID: 928864248}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &523544602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 523544600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d282b3ec61ea5b42b96bce273cc1663, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 100
 --- !u!1 &573325088
 GameObject:
   m_ObjectHideFlags: 0
@@ -2913,7 +2932,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 725196207, guid: 77b513a5f7e67814d9336c243be75c5c, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 4.460022
+      value: 4.459961
       objectReference: {fileID: 0}
     - target: {fileID: 725196207, guid: 77b513a5f7e67814d9336c243be75c5c, type: 3}
       propertyPath: m_SizeDelta.x
@@ -2921,11 +2940,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 725196207, guid: 77b513a5f7e67814d9336c243be75c5c, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 4.9400024
+      value: 4.9399414
       objectReference: {fileID: 0}
     - target: {fileID: 725196207, guid: 77b513a5f7e67814d9336c243be75c5c, type: 3}
       propertyPath: m_SizeDelta.y
       value: 34.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 323521446, guid: 77b513a5f7e67814d9336c243be75c5c, type: 3}
+      propertyPath: _mobileAccelerationMagnitudeToReload
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 323521446, guid: 77b513a5f7e67814d9336c243be75c5c, type: 3}
+      propertyPath: _infiniteAmmoPowerUpDurationMinutes
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 725196208, guid: 77b513a5f7e67814d9336c243be75c5c, type: 3}
       propertyPath: m_Sprite
@@ -2935,7 +2962,8 @@ PrefabInstance:
       propertyPath: m_Type
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1520630863, guid: 77b513a5f7e67814d9336c243be75c5c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 77b513a5f7e67814d9336c243be75c5c, type: 3}
 --- !u!1 &928864249 stripped
 GameObject:
@@ -5790,7 +5818,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _timeBetweenWave: 3
-  _creditPerWave: 50
+  _creditPerWave: 3
   _spawners:
   - {fileID: 11163143}
   - {fileID: 905013935}

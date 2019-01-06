@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class GunComponent : MonoBehaviour
@@ -11,6 +12,11 @@ public class GunComponent : MonoBehaviour
     private int _MaxAmmo;
     [SerializeField]
     private float _reloadTime;
+    [SerializeField]
+    private float _mobileAccelerationMagnitudeToReload;
+    [SerializeField]
+    private int _infiniteAmmoPowerUpDurationMinutes;
+
 
     private int _currentAmmoCount;
     public int CurrentAmmoCount
@@ -23,15 +29,26 @@ public class GunComponent : MonoBehaviour
         }
     }
     private float _lastShot;
+    private bool _isReloading = false;
+    private bool _infiniteAmmoActivated = false;
 
     void Start()
     {
         _damage += PlayerPrefs.GetInt("Damage");
         CurrentAmmoCount = _MaxAmmo;
+        _infiniteAmmoActivated = CheckInfiniteAmmo();
     }
     
     void Update()
     {
+        if(_infiniteAmmoActivated)
+        {
+            _infiniteAmmoActivated = CheckInfiniteAmmo();
+        }
+        if(_isReloading)
+        {
+            return;
+        }
         if(Application.platform == RuntimePlatform.Android || Input.GetMouseButton(0))
         {
             if (Time.time - _lastShot > _rateOfFire && _currentAmmoCount > 0)
@@ -43,7 +60,10 @@ public class GunComponent : MonoBehaviour
                 {
                     hit.collider?.GetComponent<EntityHealth>()?.TakeDamage(_damage);
                     _lastShot = Time.time;
-                    CurrentAmmoCount--;
+                    if(!_infiniteAmmoActivated)
+                    {
+                        CurrentAmmoCount--;
+                    }
                     if(_currentAmmoCount == 0)
                     {
                         StartCoroutine("Reload");
@@ -51,22 +71,43 @@ public class GunComponent : MonoBehaviour
                 }   
             }
         }
+        if(_currentAmmoCount < _MaxAmmo)
+        {
+            if(Input.GetKeyDown(KeyCode.Space))
+            {
+                StartCoroutine("Reload");
+            }
+            if(Input.acceleration.magnitude > _mobileAccelerationMagnitudeToReload)
+            {
+                StartCoroutine("Reload");
+            }
+        }
     }
 
-    private void Shoot(EntityHealth healthComponent)
+    private bool CheckInfiniteAmmo()
     {
-        healthComponent?.TakeDamage(_damage);
-        _lastShot = Time.time;
-        CurrentAmmoCount--;
-        if (_currentAmmoCount == 0)
+        if(PlayerPrefs.GetInt("InfiniteAmmo") == 1)
         {
-            StartCoroutine("Reload");
+            TimeSpan elapsedTime = (DateTime.Now - DateTime.Parse(PlayerPrefs.GetString("InfiniteAmmoStart")));
+            TimeSpan remainingTime = TimeSpan.FromMinutes(PlayerPrefs.GetInt("InfiniteAmmoDuration")) - elapsedTime;
+            if (remainingTime <= new TimeSpan())
+            {
+                PlayerPrefs.SetInt("InfiniteAmmo", 0);
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
+        return false;
     }
 
     IEnumerator Reload()
     {
+        _isReloading = true;
         yield return new WaitForSeconds(_reloadTime);
         CurrentAmmoCount = _MaxAmmo;
+        _isReloading = false;
     }
 }

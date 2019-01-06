@@ -15,7 +15,7 @@ public class ContinueScreen : MonoBehaviour
     public void Display(int continueCost, bool canWatchAdd)
     {
         _continueCost = continueCost;
-        _spendHardCurrencyButton.interactable = PlayerWallet.Instance.GetHardCurrency() >= _continueCost;
+        _spendHardCurrencyButton.interactable = PlayerWallet.Instance.GetCurrency(PlayerWallet.CurrencyType.Hard) >= _continueCost;
         _spendHardCurrencyButton.GetComponentInChildren<Text>().text = _continueCost.ToString();
         _canWatchAdd = canWatchAdd;
         _watchAddButton.interactable = _canWatchAdd;
@@ -31,7 +31,7 @@ public class ContinueScreen : MonoBehaviour
 
     public void SpendHardCurrencyToContinue()
     {
-        PlayerWallet.Instance.AddHardCurrency(-_continueCost);
+        PlayerWallet.Instance.AddCurrency(PlayerWallet.CurrencyType.Hard, -_continueCost);
         ResetGame();
     }
 

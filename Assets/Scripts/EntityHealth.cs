@@ -3,24 +3,15 @@
 public class EntityHealth : MonoBehaviour
 {
     [SerializeField]
-    private int _maxHealth;
-    private int _currentHealth;
+    protected int _maxHealth;
+    protected int _currentHealth;
 
     public delegate void DeathCallback();
     private DeathCallback _deathCallback = null;
 
     // Start is called before the first frame update
-    void Start()
+    public virtual void Start()
     {
-        if(transform.tag == "Player")
-        {
-            PlayerUI.Instance.NotifyHealth(1f);
-            _maxHealth += PlayerPrefs.GetInt("Health");
-        }
-        else
-        {
-            _maxHealth = GetComponent<EntityInfos>().Health;
-        }
         _currentHealth = _maxHealth;
     }
 
@@ -30,26 +21,18 @@ public class EntityHealth : MonoBehaviour
     }
 
     // Update is called once per frame
-    public void TakeDamage(int amount)
+    public virtual void TakeDamage(int amount)
     {
         _currentHealth = Mathf.Max(0, _currentHealth - amount);
         if(_currentHealth == 0)
         {
             TriggerDeath();
         }
-        if (transform.tag == "Player")
-        {
-            PlayerUI.Instance.NotifyHealth(_currentHealth/_maxHealth);
-        }
     }
 
-    public void Heal(float percentage)
+    public virtual void Heal(float percentage)
     {
         _currentHealth = Mathf.Min(_maxHealth, _currentHealth + (int)(percentage * _maxHealth));
-        if (transform.tag == "Player")
-        {
-            PlayerUI.Instance.NotifyHealth(_currentHealth / _maxHealth);
-        }
     }
 
     void TriggerDeath()

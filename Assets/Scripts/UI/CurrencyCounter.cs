@@ -18,11 +18,11 @@ public class CurrencyCounter : MonoBehaviour
     {
         if(_hardCurrency)
         {
-            _text.text = PlayerWallet.Instance.GetHardCurrency().ToString();
+            _text.text = PlayerWallet.Instance.GetCurrency(PlayerWallet.CurrencyType.Hard).ToString();
         }
         else
         {
-            _text.text = PlayerWallet.Instance.GetSoftCurrency().ToString();
+            _text.text = PlayerWallet.Instance.GetCurrency(PlayerWallet.CurrencyType.Soft).ToString();
         }
     }
 }
