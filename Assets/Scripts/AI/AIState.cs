@@ -2,16 +2,26 @@
 
 public abstract class AIState : MonoBehaviour
 {
-
     protected AIAgent _AIAgent;
 
-    // Start is called before the first frame update
-    public virtual void StateInit()
+    public abstract void StateInit();
+
+    void Start()
     {
         _AIAgent = GetComponent<AIAgent>();
     }
 
-    // Update is called once per frame
     public abstract void StateUpdate();
+
+    private void Update()
+    {
+        CheckTransition();
+    }
+
+    public virtual void OnStateLeave()
+    {
+    }
+
+    public abstract void CheckTransition();
     
 }

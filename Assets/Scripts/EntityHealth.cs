@@ -4,17 +4,12 @@ public class EntityHealth : MonoBehaviour
 {
     [SerializeField]
     protected int _maxHealth;
+    public int Health { get { return _maxHealth; } set { _maxHealth = value; _currentHealth = _maxHealth; } }
     protected int _currentHealth;
 
     public delegate void DeathCallback();
     private DeathCallback _deathCallback = null;
-
-    // Start is called before the first frame update
-    public virtual void Start()
-    {
-        _currentHealth = _maxHealth;
-    }
-
+    
     public void SetDeathCallback(DeathCallback callback)
     {
         _deathCallback = callback;

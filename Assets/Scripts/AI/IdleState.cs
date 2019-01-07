@@ -1,18 +1,18 @@
-﻿using UnityEngine;
-
+﻿
 public class IdleState : AIState
 {
-    GameObject _target;
+    public override void CheckTransition()
+    {
+        //Do nothing as IdleState is set by other states
+    }
 
     public override void StateInit()
     {
-        base.StateInit();
-        _target = GameObject.FindGameObjectWithTag("Player");
+        // Do nothing
     }
 
-    // Update is called once per frame
     public override void StateUpdate()
     {
-        _AIAgent.SetState(typeof(MoveToTargetState));
+        // Do nothing
     }
 }

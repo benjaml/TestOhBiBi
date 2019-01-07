@@ -44,7 +44,7 @@ public class PlayerWallet
             case CurrencyType.Hard:
                 return PlayerPrefs.GetInt("HardCurrency");
             case CurrencyType.Real:
-                return int.MaxValue; // If only life was this easy
+                return int.MaxValue;
             default:
                 return 0;
         }

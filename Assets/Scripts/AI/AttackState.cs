@@ -2,8 +2,6 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(NavMeshAgent))]
-[RequireComponent(typeof(EntityInfos))]
 public class AttackState : AIState
 {
     [SerializeField]
@@ -11,51 +9,63 @@ public class AttackState : AIState
     [SerializeField]
     // timing of the attack 0 is start and 1 is end
     private float _attackTiming;
+    [SerializeField]
+    private float _attackRange;
+    [SerializeField]
+    private float _attackSpeed;
+    public int AttackDamage;
+    [SerializeField]
+    private string _attackTriggerName;
+    private float _lastAttackTime;
 
-    private GameObject _player;
 
-    private int _damage;
     Animator _animator;
-    NavMeshAgent _navMeshAgent;
-
-    private void Start()
-    {
-        _player = GameObject.FindGameObjectWithTag("Player");
-    }
-
+    
     public override void StateInit()
     {
-        base.StateInit();
         _animator = GetComponentInChildren<Animator>();
-        _animator.SetTrigger("Attack");
-        _navMeshAgent = GetComponent<NavMeshAgent>();
+        _animator.SetTrigger(_attackTriggerName);
         StartCoroutine("AttackCoroutine");
-        _AIAgent.Infos.LastAttackTime = Time.time;
-        _damage = GetComponent<EntityInfos>().Damage;
+        _lastAttackTime = Time.time;
     }
 
-    public override void StateUpdate()
-    {
-    }
 
     private IEnumerator AttackCoroutine()
     {
-        transform.LookAt(_player.transform.position);
+        transform.LookAt(_AIAgent.Target.transform.position);
         yield return new WaitForSeconds(_attackLength*_attackTiming);
         TriggerAttack();
         yield return new WaitForSeconds(_attackLength * 1 - _attackTiming);
-        _AIAgent.SetState(typeof(IdleState));
+        _AIAgent.SetState(GetComponent<IdleState>());
     }
 
-    private void TriggerAttack()
+    protected virtual void TriggerAttack()
     {
-        Collider[] overlaps = Physics.OverlapBox(transform.position + transform.forward * transform.localScale.x, Vector3.one*GetComponent<EntityInfos>().AttackRange);
+        Collider[] overlaps = Physics.OverlapBox(transform.position + transform.forward * transform.localScale.x, Vector3.one*_attackRange);
         foreach(Collider overlap in overlaps)
         {
             if(overlap.tag == "Player")
             {
-                overlap.GetComponent<EntityHealth>().TakeDamage(_damage);
+                overlap.GetComponent<EntityHealth>().TakeDamage(AttackDamage);
             }
         }
+    }
+
+    public override void CheckTransition()
+    {
+        if (_AIAgent.CurrentState != this && _AIAgent.CurrentState.GetType() != typeof(RangeAttackState))
+        {
+            if (Vector3.Distance(transform.position, _AIAgent.Target.transform.position) < _attackRange)
+            {
+                if (_lastAttackTime == 0 || Time.time - _lastAttackTime > _attackSpeed)
+                {
+                    _AIAgent.SetState(this);
+                }
+            }
+        }
+    }
+
+    public override void StateUpdate()
+    {
     }
 }

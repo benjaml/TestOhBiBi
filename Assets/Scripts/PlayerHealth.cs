@@ -4,11 +4,10 @@ public class PlayerHealth : EntityHealth
 {
 
     // Start is called before the first frame update
-    public override void Start()
+    public void Start()
     {
         PlayerUI.Instance.NotifyHealth(1f);
-        _maxHealth += PlayerPrefs.GetInt("Health");
-        base.Start();
+        Health += PlayerPrefs.GetInt("Health");
     }
 
     // Update is called once per frame

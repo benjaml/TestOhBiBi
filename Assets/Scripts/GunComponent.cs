@@ -16,6 +16,10 @@ public class GunComponent : MonoBehaviour
     private float _mobileAccelerationMagnitudeToReload;
     [SerializeField]
     private int _infiniteAmmoPowerUpDurationMinutes;
+    [SerializeField]
+    private GameObject _decalPrefab;
+
+    private Animator _muzzleFlashAnimator;
 
 
     private int _currentAmmoCount;
@@ -32,11 +36,14 @@ public class GunComponent : MonoBehaviour
     private bool _isReloading = false;
     private bool _infiniteAmmoActivated = false;
 
+    private const float A_LITTLE_FORWARD = 0.01f;
+
     void Start()
     {
         _damage += PlayerPrefs.GetInt("Damage");
         CurrentAmmoCount = _MaxAmmo;
         _infiniteAmmoActivated = CheckInfiniteAmmo();
+        _muzzleFlashAnimator = GetComponentInChildren<Animator>();
     }
     
     void Update()
@@ -58,9 +65,14 @@ public class GunComponent : MonoBehaviour
                 Physics.Raycast(ray, out hit);
                 if(Application.platform == RuntimePlatform.WindowsEditor ||  hit.transform.tag == "Damageable")
                 {
-                    hit.collider?.GetComponent<EntityHealth>()?.TakeDamage(_damage);
+                    if (hit.collider)
+                    {
+                        hit.collider.GetComponent<EntityHealth>()?.TakeDamage(_damage);
+                        Instantiate(_decalPrefab, hit.point+hit.normal*A_LITTLE_FORWARD, Quaternion.LookRotation(-hit.normal));
+                    }
                     _lastShot = Time.time;
-                    if(!_infiniteAmmoActivated)
+                    _muzzleFlashAnimator.SetTrigger("Fire");
+                    if (!_infiniteAmmoActivated)
                     {
                         CurrentAmmoCount--;
                     }

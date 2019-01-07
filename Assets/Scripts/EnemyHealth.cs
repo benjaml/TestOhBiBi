@@ -10,11 +10,10 @@ public class EnemyHealth : EntityHealth
     private const float OFFSET_POSITION_MULTIPLIER = 4f;
 
     // Start is called before the first frame update
-    public override void Start()
+    public void Start()
     {
+        _currentHealth = Health;
         _baseWidth = _healthBar.transform.localScale.x;
-        _maxHealth = GetComponent<EntityInfos>().Health;
-        base.Start();
     }
 
     // Update is called once per frame

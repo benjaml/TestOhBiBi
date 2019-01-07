@@ -1,19 +1,19 @@
 ﻿using UnityEngine;
-[RequireComponent(typeof(EntityInfos))]
+[RequireComponent(typeof(IdleState))]
 public class AIAgent : MonoBehaviour
 {
     AIState _currentState;
-    public EntityInfos Infos { get; private set; }
+    public AIState CurrentState { get { return _currentState; } }
 
-    // Start is called before the first frame update
+    GameObject _target;
+    public GameObject Target { get { return _target; } }
+
     void Start()
     {
-        Infos = GetComponent<EntityInfos>();
-        SetState(typeof(IdleState));
-
+        SetState(GetComponent<IdleState>());
+        _target = GameObject.FindGameObjectWithTag("Player");
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(_currentState)
@@ -22,14 +22,13 @@ public class AIAgent : MonoBehaviour
         }
     }
 
-    public void SetState(System.Type StateType)
+    public void SetState(AIState state)
     {
-        Component component = GetComponent(StateType);
-        if(!component)
+        if(_currentState)
         {
-            component = gameObject.AddComponent(StateType);
+            _currentState.OnStateLeave();
         }
-        _currentState = component as AIState;
+        _currentState = state;
         _currentState.StateInit();
     }
 
@@ -37,9 +36,11 @@ public class AIAgent : MonoBehaviour
     {
         if(level > 1)
         {
-            EntityInfos infos = GetComponent<EntityInfos>();
-            infos.Damage *= level;
-            infos.Health *= level;
+            foreach(AttackState attackState in GetComponents<AttackState>())
+            {
+                attackState.AttackDamage *= level;
+            }
+            GetComponent<EntityHealth>().Health *= level;
         }
     }
 }
