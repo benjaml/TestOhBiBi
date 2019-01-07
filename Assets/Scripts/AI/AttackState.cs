@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class AttackState : AIState
 {
@@ -18,6 +17,8 @@ public class AttackState : AIState
     private string _attackTriggerName;
     private float _lastAttackTime;
 
+    protected Vector3 _bufferedPosition;
+
 
     Animator _animator;
     
@@ -32,7 +33,8 @@ public class AttackState : AIState
 
     private IEnumerator AttackCoroutine()
     {
-        transform.LookAt(_AIAgent.Target.transform.position);
+        _bufferedPosition = _AIAgent.Target.transform.position;
+        transform.LookAt(_bufferedPosition);
         yield return new WaitForSeconds(_attackLength*_attackTiming);
         TriggerAttack();
         yield return new WaitForSeconds(_attackLength * 1 - _attackTiming);
@@ -63,6 +65,11 @@ public class AttackState : AIState
                 }
             }
         }
+    }
+
+    public void PlayAttackSound()
+    {
+        Debug.Log("prout");
     }
 
     public override void StateUpdate()

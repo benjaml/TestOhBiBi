@@ -4,7 +4,7 @@ public class FPSController : MonoBehaviour
 {
 
     public float MovementSpeed = 10.0f;
-    public float RotationSpeed = 10.0f;
+    public float RotationSpeed = 30.0f;
 
     public float MaxPitch = 170.0f;
     public float MinPitch = 30.0f; 
@@ -27,6 +27,7 @@ public class FPSController : MonoBehaviour
 
     [SerializeField]
     private float _mobileRotationModifier = 0.5f;
+    private float _sensibilityOption;
     private Rigidbody _rigidbody;
         
     // Use this for initialization
@@ -36,6 +37,7 @@ public class FPSController : MonoBehaviour
         _camera = GetComponentInChildren<Camera>().gameObject;
         _rigidbody = GetComponent<Rigidbody>();
         _startRotation = _camera.transform.rotation;
+        _sensibilityOption = PlayerPrefs.GetFloat("Sensibility");
     }
 
     // Update is called once per frame
@@ -132,8 +134,8 @@ public class FPSController : MonoBehaviour
                     Vector2 rotationDirection = (touch.position - _rotationStartPoint);
                     //rotationDirection = rotationDirection.normalized;
                     _rotationStartPoint = touch.position;
-                    _xAngle += -rotationDirection.y * RotationSpeed * _mobileRotationModifier * Time.deltaTime;
-                    _yAngle += rotationDirection.x * RotationSpeed * _mobileRotationModifier * Time.deltaTime;
+                    _xAngle += -rotationDirection.y * RotationSpeed * _sensibilityOption * _mobileRotationModifier * Time.deltaTime;
+                    _yAngle += rotationDirection.x * RotationSpeed *  _sensibilityOption *_mobileRotationModifier * Time.deltaTime;
                     _xAngle = Mathf.Clamp(_xAngle, MinPitch, MaxPitch);
                     Quaternion yQuaternion = Quaternion.AngleAxis(_yAngle, Vector3.up);
                     Quaternion xQuaternion = Quaternion.AngleAxis(_xAngle, _camera.transform.right);
@@ -146,8 +148,8 @@ public class FPSController : MonoBehaviour
         }
         else
         {
-            _xAngle += -Input.GetAxis("Mouse Y") * RotationSpeed * Time.deltaTime;
-            _yAngle += Input.GetAxis("Mouse X") * RotationSpeed * Time.deltaTime;
+            _xAngle += -Input.GetAxis("Mouse Y") * RotationSpeed * _sensibilityOption * Time.deltaTime;
+            _yAngle += Input.GetAxis("Mouse X") * RotationSpeed * _sensibilityOption * Time.deltaTime;
             _xAngle = Mathf.Clamp(_xAngle, MinPitch, MaxPitch);
             Quaternion yQuaternion = Quaternion.AngleAxis(_yAngle, Vector3.up);
             Quaternion xQuaternion = Quaternion.AngleAxis(_xAngle, _camera.transform.right);

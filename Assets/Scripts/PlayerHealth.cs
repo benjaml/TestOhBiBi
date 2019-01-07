@@ -4,8 +4,9 @@ public class PlayerHealth : EntityHealth
 {
 
     // Start is called before the first frame update
-    public void Start()
+    public override void Start()
     {
+        base.Start();
         PlayerUI.Instance.NotifyHealth(1f);
         Health += PlayerPrefs.GetInt("Health");
     }

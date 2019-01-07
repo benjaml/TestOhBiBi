@@ -135,4 +135,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d50c1e4a12b7ad4fbeee7a31e88d917, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _starPerWave: 0.1
+  _starPerWave: 2

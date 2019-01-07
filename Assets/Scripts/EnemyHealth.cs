@@ -1,18 +1,24 @@
 ﻿using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyHealth : EntityHealth
 {
+
     [SerializeField]
     private GameObject _healthBar;
     private float _baseWidth;
+
+    private Animator _animator;
 
     // I've found this constant by playing with unity but I can't explain it
     private const float OFFSET_POSITION_MULTIPLIER = 4f;
 
     // Start is called before the first frame update
-    public void Start()
+    public override void Start()
     {
+        base.Start();
         _currentHealth = Health;
+        _animator = GetComponentInChildren<Animator>();
         _baseWidth = _healthBar.transform.localScale.x;
     }
 
@@ -21,6 +27,8 @@ public class EnemyHealth : EntityHealth
     {
         base.TakeDamage(amount);
         UpdateLifeBar((float)_currentHealth/_maxHealth);
+        _animator.SetTrigger("Hit");
+        GetComponent<NavMeshAgent>().velocity = Vector3.zero;
     }
 
     public override void Heal(float percentage)

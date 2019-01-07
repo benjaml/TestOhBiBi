@@ -18,8 +18,18 @@ public class GunComponent : MonoBehaviour
     private int _infiniteAmmoPowerUpDurationMinutes;
     [SerializeField]
     private GameObject _decalPrefab;
+    [SerializeField]
+    private AudioClip _gunSound;
+    [SerializeField]
+    private AudioClip _reloadSound;
 
     private Animator _muzzleFlashAnimator;
+    private AudioSource _shotAudioSource;
+    private ScreenShake _cameraShake;
+    [SerializeField]
+    private float _shakeDuration;
+    [SerializeField]
+    private float _shakeMagnitude;
 
 
     private int _currentAmmoCount;
@@ -44,6 +54,8 @@ public class GunComponent : MonoBehaviour
         CurrentAmmoCount = _MaxAmmo;
         _infiniteAmmoActivated = CheckInfiniteAmmo();
         _muzzleFlashAnimator = GetComponentInChildren<Animator>();
+        _shotAudioSource = GetComponent<AudioSource>();
+        _cameraShake = GetComponent<ScreenShake>();
     }
     
     void Update()
@@ -68,10 +80,16 @@ public class GunComponent : MonoBehaviour
                     if (hit.collider)
                     {
                         hit.collider.GetComponent<EntityHealth>()?.TakeDamage(_damage);
-                        Instantiate(_decalPrefab, hit.point+hit.normal*A_LITTLE_FORWARD, Quaternion.LookRotation(-hit.normal));
+                        if(hit.collider.tag != "Damageable")
+                        {
+                            Instantiate(_decalPrefab, hit.point+hit.normal*A_LITTLE_FORWARD, Quaternion.LookRotation(-hit.normal));
+                        }
                     }
                     _lastShot = Time.time;
+                    _shotAudioSource.pitch = UnityEngine.Random.Range(1f, 1.1f);
+                    _shotAudioSource.PlayOneShot(_gunSound);
                     _muzzleFlashAnimator.SetTrigger("Fire");
+                    StartCoroutine(_cameraShake.Shake(_shakeDuration, _shakeMagnitude));
                     if (!_infiniteAmmoActivated)
                     {
                         CurrentAmmoCount--;
@@ -118,6 +136,8 @@ public class GunComponent : MonoBehaviour
     IEnumerator Reload()
     {
         _isReloading = true;
+        _shotAudioSource.pitch = 1f;
+        _shotAudioSource.PlayOneShot(_reloadSound);
         yield return new WaitForSeconds(_reloadTime);
         CurrentAmmoCount = _MaxAmmo;
         _isReloading = false;

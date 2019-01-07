@@ -14,7 +14,9 @@ public class ContinueScreen : MonoBehaviour
 
     public void Display(int continueCost, bool canWatchAdd)
     {
+        Time.timeScale = 0;
         _continueCost = continueCost;
+        AmbiantMusic.Instance.Pause();
         _spendHardCurrencyButton.interactable = PlayerWallet.Instance.GetCurrency(PlayerWallet.CurrencyType.Hard) >= _continueCost;
         _spendHardCurrencyButton.GetComponentInChildren<Text>().text = _continueCost.ToString();
         _canWatchAdd = canWatchAdd;
@@ -37,8 +39,16 @@ public class ContinueScreen : MonoBehaviour
 
     private void ResetGame()
     {
+        Time.timeScale = 1;
+        AmbiantMusic.Instance.Resume();
         GameManager.Instance.ResetGame();
         Cursor.lockState = CursorLockMode.Locked;
         gameObject.SetActive(false);
+    }
+
+    private void OnDestroy()
+    {
+        // When we choose to exit the game we need to reset TimeScale to 1
+        Time.timeScale = 1;
     }
 }
