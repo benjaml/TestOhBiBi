@@ -4,20 +4,15 @@ public class RangeAttackState : AttackState
 {
 
     [SerializeField]
-    private Vector3 _bulletStart;
+    private GameObject _bulletStart;
     [SerializeField]
     private GameObject _attackProjectile;
 
     float MAX_RANGE = 100.0f;
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.DrawSphere(transform.position + _bulletStart, 0.2f);
-    }
-
+    
     protected override void TriggerAttack()
     {
-        Vector3 start = transform.position + _bulletStart;
+        Vector3 start = _bulletStart.transform.position;
         RaycastHit hit;
         GameObject laser = Instantiate(_attackProjectile, start, Quaternion.LookRotation(_bufferedPosition - start));
         if (Physics.Raycast(start, _bufferedPosition - start, out hit, MAX_RANGE, LayerMask.GetMask("ForAI")))

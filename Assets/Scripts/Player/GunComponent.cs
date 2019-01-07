@@ -22,6 +22,8 @@ public class GunComponent : MonoBehaviour
     private AudioClip _gunSound;
     [SerializeField]
     private AudioClip _reloadSound;
+    [SerializeField]
+    private GameObject _hitParticle;
 
     private Animator _muzzleFlashAnimator;
     private AudioSource _shotAudioSource;
@@ -80,6 +82,7 @@ public class GunComponent : MonoBehaviour
                     if (hit.collider)
                     {
                         hit.collider.GetComponent<EntityHealth>()?.TakeDamage(_damage);
+                        Instantiate(_hitParticle, hit.point, Quaternion.identity);
                         if(hit.collider.tag != "Damageable")
                         {
                             Instantiate(_decalPrefab, hit.point+hit.normal*A_LITTLE_FORWARD, Quaternion.LookRotation(-hit.normal));
