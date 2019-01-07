@@ -75,7 +75,7 @@ public class GunComponent : MonoBehaviour
                 Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width * 0.5f, Screen.height * 0.5f));
                 RaycastHit hit;
                 Physics.Raycast(ray, out hit);
-                if(Application.platform == RuntimePlatform.WindowsEditor ||  hit.transform.tag == "Damageable")
+                if(Application.platform != RuntimePlatform.Android ||  hit.transform.tag == "Damageable")
                 {
                     if (hit.collider)
                     {

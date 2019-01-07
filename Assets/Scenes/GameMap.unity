@@ -2975,6 +2975,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8270780885746875569, guid: 77b513a5f7e67814d9336c243be75c5c,
+        type: 3}
+      propertyPath: RotationSpeed
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 1999760734, guid: 77b513a5f7e67814d9336c243be75c5c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

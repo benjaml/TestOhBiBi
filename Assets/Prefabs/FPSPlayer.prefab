@@ -2847,7 +2847,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovementSpeed: 10
-  RotationSpeed: 75
+  RotationSpeed: 150
   MaxPitch: 65
   MinPitch: -55
   _mobileRotationModifier: 0.1

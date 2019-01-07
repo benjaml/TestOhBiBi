@@ -4,7 +4,7 @@ public class FPSController : MonoBehaviour
 {
 
     public float MovementSpeed = 10.0f;
-    public float RotationSpeed = 30.0f;
+    public float RotationSpeed = 50.0f;
 
     public float MaxPitch = 170.0f;
     public float MinPitch = 30.0f; 
