@@ -3,12 +3,14 @@
 public class RangeAttackState : AttackState
 {
 
+    #region VisibleVariables
     [SerializeField]
     private GameObject _bulletStart;
     [SerializeField]
     private GameObject _attackProjectile;
+    #endregion
 
-    float MAX_RANGE = 100.0f;
+    private const float MAX_RANGE = 100.0f;
     
     protected override void TriggerAttack()
     {

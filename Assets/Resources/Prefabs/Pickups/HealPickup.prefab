@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1207229957}
   - component: {fileID: 1207229960}
   - component: {fileID: 1207229959}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 7661239683460728664}
   - component: {fileID: 7661239683460728665}
   - component: {fileID: 7661239683460728666}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: HealPickup
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -3,17 +3,18 @@ using UnityEngine.UI;
 
 public class ContinueScreen : MonoBehaviour
 {
-    private int _continueCost;
-    private bool _canWatchAdd;
-
-
     [SerializeField]
     private Button _watchAddButton;
     [SerializeField]
     private Button _spendHardCurrencyButton;
 
+    private int _continueCost;
+    private bool _canWatchAdd;
+
     public void Display(int continueCost, bool canWatchAdd)
     {
+        // I had to set TimeScale to 0 as I do not destroy the player and enemies are continuing
+        // to attack so we heard enemies attack during the continue screen
         Time.timeScale = 0;
         _continueCost = continueCost;
         AmbiantMusic.Instance.Pause();

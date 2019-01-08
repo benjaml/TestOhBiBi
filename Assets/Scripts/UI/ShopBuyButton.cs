@@ -18,14 +18,13 @@ public class ShopBuyButton : MonoBehaviour
     [SerializeField]
     private Text _gainText;
 
-
-    // Start is called before the first frame update
     void Start()
     {
         _button = GetComponent<Button>();
         _button.onClick.AddListener(BuyCurrency);
         if(_costCurrencyType == PlayerWallet.CurrencyType.Real)
         {
+            // I use this to convert int cost to float, here the unit of the cost amount is cents
             _costText.text = (_costAmount*0.01f).ToString("F2") + " $";
         }
         else
@@ -34,6 +33,7 @@ public class ShopBuyButton : MonoBehaviour
         }
         if (_gainCurrencyType == PlayerWallet.CurrencyType.Real)
         {
+            // I use this to convert int cost to float, here the unit of the cost amount is cents
             _gainText.text = (_gainAmount * 0.01f).ToString("F2") + " $";
         }
         else

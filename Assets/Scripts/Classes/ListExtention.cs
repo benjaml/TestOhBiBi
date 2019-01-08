@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-// I'm using this to ease the debug with the AndroidDeviceMonitor
 public static class ListExtension
 {
    public static List<GameObject> GetOutOfSight(this List<GameObject> list, GameObject otherObject)

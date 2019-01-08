@@ -3,28 +3,37 @@ using UnityEngine;
 
 public class AttackState : AIState
 {
+    #region VisibleVariable
+
     [SerializeField]
     private float _attackLength;
-    [SerializeField]
     // timing of the attack 0 is start and 1 is end
+    [SerializeField]
     private float _attackTiming;
     [SerializeField]
     private float _attackRange;
     [SerializeField]
     private float _attackSpeed;
+    // this variable is public as I need to get and set it (LevelUp)
     public int AttackDamage;
     [SerializeField]
     private string _attackTriggerName;
-    private float _lastAttackTime;
+    #endregion
 
+    private float _lastAttackTime;
     protected Vector3 _bufferedPosition;
 
+    private Animator _animator;
 
-    Animator _animator;
-    
+    protected override void Start()
+    {
+        base.Start();
+        _animator = GetComponentInChildren<Animator>();
+    }
+
+
     public override void StateInit()
     {
-        _animator = GetComponentInChildren<Animator>();
         _animator.SetTrigger(_attackTriggerName);
         StartCoroutine("AttackCoroutine");
         _lastAttackTime = Time.time;
@@ -67,12 +76,13 @@ public class AttackState : AIState
         }
     }
 
-    public void PlayAttackSound()
-    {
-        Debug.Log("prout");
-    }
-
     public override void StateUpdate()
     {
+        //Do nothing
+    }
+
+    public override void OnStateLeave()
+    {
+        //Do nothing
     }
 }

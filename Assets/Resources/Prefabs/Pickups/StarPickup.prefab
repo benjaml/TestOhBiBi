@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1714590354}
   - component: {fileID: 1714590356}
   - component: {fileID: 1714590355}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 5301410295812453274}
   - component: {fileID: 5301410295812453273}
   - component: {fileID: 5301410295812452455}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: StarPickup
   m_TagString: Untagged
   m_Icon: {fileID: 0}

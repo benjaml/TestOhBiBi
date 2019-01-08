@@ -4,12 +4,9 @@ using UnityEngine.UI;
 
 public class PlayerHealth : EntityHealth
 {
-
     [SerializeField]
     private Image _hitFeedback;
       
-
-    // Start is called before the first frame update
     public override void Start()
     {
         base.Start();
@@ -17,7 +14,6 @@ public class PlayerHealth : EntityHealth
         Health += PlayerPrefs.GetInt("Health");
     }
 
-    // Update is called once per frame
     public override void TakeDamage(int amount)
     {
         base.TakeDamage(amount);
@@ -33,6 +29,7 @@ public class PlayerHealth : EntityHealth
 
     IEnumerator FlashHitFeedback()
     {
+        // flash a red Image for one frame to make hit feedback
         _hitFeedback.color = new Color(_hitFeedback.color.r, _hitFeedback.color.g, _hitFeedback.color.b, 0.8f);
         yield return null;
         _hitFeedback.color = new Color(_hitFeedback.color.r, _hitFeedback.color.g, _hitFeedback.color.b, 0f);

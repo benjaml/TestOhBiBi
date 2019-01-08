@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 public class SensibilitySlider : MonoBehaviour
 {
-    // Start is called before the first frame update
     void Start()
     {
         float sensibility = PlayerPrefs.GetFloat("Sensibility");

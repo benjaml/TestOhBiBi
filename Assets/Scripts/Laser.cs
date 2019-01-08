@@ -2,6 +2,7 @@
 
 public class Laser : MonoBehaviour
 {
+    private const float LASER_SPEED = 200.0f;
     private Vector3 _destination;
 
     public void SetDestination(Vector3 destination)
@@ -11,6 +12,6 @@ public class Laser : MonoBehaviour
 
     private void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, _destination, 200 * Time.deltaTime);  
+        transform.position = Vector3.MoveTowards(transform.position, _destination, LASER_SPEED * Time.deltaTime);  
     }
 }

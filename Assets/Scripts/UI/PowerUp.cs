@@ -10,12 +10,18 @@ public class PowerUp : MonoBehaviour
     private int _powerUpDuration;
     [SerializeField]
     private int _powerUpCost;
-
     [SerializeField]
     private Text _timerText;
     [SerializeField]
     private Text _costText;
+
     private Button _button;
+
+    private void Start()
+    {
+        _button = GetComponentInChildren<Button>();
+        _costText.text = _powerUpCost.ToString();
+    }
 
     public void StartPowerUp()
     {
@@ -23,12 +29,6 @@ public class PowerUp : MonoBehaviour
         PlayerPrefs.SetString(_powerUpName + "Start", DateTime.Now.ToLongTimeString());
         PlayerPrefs.SetInt(_powerUpName + "Duration", _powerUpDuration);
         PlayerWallet.Instance.AddCurrency(PlayerWallet.CurrencyType.Hard, -_powerUpCost);
-    }
-
-    private void Start()
-    {
-        _button = GetComponentInChildren<Button>();
-        _costText.text = _powerUpCost.ToString();
     }
 
     private void Update()

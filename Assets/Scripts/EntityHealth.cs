@@ -2,19 +2,18 @@
 
 public class EntityHealth : MonoBehaviour
 {
+    public delegate void DeathCallback();
+
     [SerializeField]
     protected int _maxHealth;
     public int Health { get { return _maxHealth; } set { _maxHealth = value; _currentHealth = _maxHealth; } }
-    protected int _currentHealth;
-
-
     [SerializeField]
     private AudioClip[] _hitSounds;
-    private AudioSource _audioSource;
 
-    public delegate void DeathCallback();
+
+    protected int _currentHealth;
+    private AudioSource _audioSource;
     private DeathCallback _deathCallback = null;
-    
 
     public virtual void Start()
     {
@@ -26,7 +25,6 @@ public class EntityHealth : MonoBehaviour
         _deathCallback = callback;
     }
 
-    // Update is called once per frame
     public virtual void TakeDamage(int amount)
     {
         _audioSource.PlayOneShot(_hitSounds[Random.Range(0, _hitSounds.Length)]);
@@ -44,7 +42,6 @@ public class EntityHealth : MonoBehaviour
 
     protected virtual void TriggerDeath()
     {
-        //Display retry if the player watch an add
         if (_deathCallback != null)
         {
             _deathCallback();

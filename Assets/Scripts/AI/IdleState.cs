@@ -6,6 +6,11 @@ public class IdleState : AIState
         //Do nothing as IdleState is set by other states
     }
 
+    public override void OnStateLeave()
+    {
+        // Do nothing
+    }
+
     public override void StateInit()
     {
         // Do nothing

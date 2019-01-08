@@ -2,6 +2,12 @@
 
 public class PlayerWallet
 {
+    // As I started to handle currency a bit everywhere in the code, so I choose to 
+    // create this class to handle it. This allows to have the name of PlayerPrefs only
+    // defined here which would be easier to change if needed.
+    // Also this class have a Static instance and as this is not a MonoBehaviour, this 
+    // can be used everywhere.
+
     public enum CurrencyType
     {
         Soft,

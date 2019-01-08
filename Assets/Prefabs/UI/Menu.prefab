@@ -4599,7 +4599,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _powerUpName: InfiniteAmmo
-  _powerUpDuration: 1
+  _powerUpDuration: 60
   _powerUpCost: 150
   _timerText: {fileID: 258952569}
   _costText: {fileID: 368668256}
@@ -7559,7 +7559,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2233868343715149281
 RectTransform:
   m_ObjectHideFlags: 0

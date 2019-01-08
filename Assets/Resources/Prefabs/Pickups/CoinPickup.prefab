@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 785751758}
   - component: {fileID: 785751761}
   - component: {fileID: 785751760}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 6644269561073132947}
   - component: {fileID: 6644269561073132948}
   - component: {fileID: 6644269561073132949}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: CoinPickup
   m_TagString: Untagged
   m_Icon: {fileID: 0}

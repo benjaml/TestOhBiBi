@@ -1,24 +1,22 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class UpgradeElement : MonoBehaviour
 {
-   [SerializeField]
-    private string _valueName;
-
     public enum AugmentationMethod
     {
         Add,
         Multiply
     }
+
+    [SerializeField]
+    private string _valueName;
     [SerializeField]
     private AugmentationMethod _augmentationMethod;
     [SerializeField]
     private int _startCost;
     [SerializeField]
     private int _augmentationAmount;
-
     [SerializeField]
     private Text _costText;
     [SerializeField]

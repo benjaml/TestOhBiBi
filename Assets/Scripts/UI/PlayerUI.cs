@@ -3,6 +3,8 @@ using UnityEngine.UI;
 
 public class PlayerUI : MonoBehaviour
 {
+
+    // I did a singleton for this class as I'm using it to update the player UI from other scripts
     public static PlayerUI Instance = null;
     
     private void Awake()
